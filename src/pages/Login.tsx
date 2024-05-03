@@ -48,7 +48,7 @@ function Login() {
     console.log(data);
   }
   return (
-    <main className="p-2 md:px-20 md:py-8 lg:px-32 lg:py-12 min-h-screen w-screen flex flex-col items-center gap-20">
+    <main className="p-2 md:px-12 md:py-8 lg:px-24 lg:py-12 min-h-screen w-screen flex flex-col items-center gap-8">
       <img
         src="/Logo.svg"
         alt="Logo"
