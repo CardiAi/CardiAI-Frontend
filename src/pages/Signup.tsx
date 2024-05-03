@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -64,7 +64,9 @@ function Signup() {
       passwordConfirm: "",
     },
   });
-  function onSubmit(data: z.infer<typeof formSchema>) {}
+  function onSubmit(data: z.infer<typeof formSchema>) {
+    console.log(data);
+  }
   return (
     <main className="p-2 md:px-20 md:py-8 lg:px-32 lg:py-12min-h-screen w-screen flex flex-col items-center gap-20">
       <img
