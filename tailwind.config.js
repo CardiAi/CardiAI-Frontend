@@ -6,6 +6,7 @@ module.exports = {
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
+    "./index.html"
   ],
   prefix: "",
   theme: {
@@ -18,6 +19,8 @@ module.exports = {
     },
     extend: {
       colors: {
+
+
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -26,10 +29,12 @@ module.exports = {
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
+          blue: "var(--primary-blue)",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
+          blue: "var(--secondary-blue)",
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
@@ -71,6 +76,9 @@ module.exports = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      fontFamily: {
+        main: '"Open Sans", sans-serif'
+      }
     },
   },
   plugins: [require("tailwindcss-animate")],
