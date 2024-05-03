@@ -18,31 +18,31 @@ const formSchema = z
   .object({
     name: z.string().min(3, { message: "The name must be 3 letters at least" }),
     email: z.string().email({ message: "Invalid email" }),
-    password: z.string().min(8, { message: "Invalid password" }),
+    password: z
+      .string()
+      .min(8, { message: "Password must be at least 8 characters" }),
 
     passwordConfirm: z.string().min(8, { message: "Passwords do not match" }),
   })
   .superRefine(({ password, passwordConfirm }, ctx) => {
-    console.log(
-      !(
-        password.match(/[A-Z]/g) &&
-        password.match(/[a-z]/g) &&
-        password.match(/[0-9]/g) &&
-        !password.match(/[^A-Za-z0-9]/g)
-      )
-    );
     if (
       !(
         password.match(/[A-Z]/g) &&
         password.match(/[a-z]/g) &&
-        password.match(/[0-9]/g) &&
-        !password.match(/[^A-Za-z0-9]/g)
+        password.match(/[0-9]/g)
       )
     ) {
       ctx.addIssue({
         code: "custom",
         path: ["password"],
-        message: "Invalid password",
+        message:
+          "Password must contain at least one uppercase character, one lowercase character, and one number",
+      });
+    } else if (password.match(/[^A-Za-z0-9]/g)) {
+      ctx.addIssue({
+        path: ["password"],
+        code: "custom",
+        message: "Password should not contain special characters",
       });
     } else if (password !== passwordConfirm) {
       ctx.addIssue({
