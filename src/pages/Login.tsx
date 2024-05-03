@@ -48,24 +48,24 @@ function Login() {
     console.log(data);
   }
   return (
-    <main className="p-2 md:px-12 md:py-8 lg:px-24 lg:py-12 min-h-screen w-screen flex flex-col items-center gap-8">
+    <main className="p-2 md:px-8 md:py-5 lg:px-14 lg:py-7 min-h-screen flex flex-col items-center gap-4">
       <img
         src="/Logo.svg"
         alt="Logo"
         className="w-[200px] h-[62px] object-cover self-start"
       />
 
-      <div className="flex flex-col flex-1 space-y-10 w-full max-w-80">
-        <div className="flex flex-col items-center gap-5">
+      <div className="flex flex-col flex-1 space-y-7 w-full max-w-80">
+        <div className="flex flex-col items-center gap-2">
           <h1 className="font-bold text-4xl">Login</h1>
           <p className="text-xl">Welcome back to CardiAI</p>
         </div>
         <Form {...form}>
           <form
-            className="flex flex-col h-full gap-10"
+            className="flex flex-col h-full gap-8"
             onSubmit={form.handleSubmit(onSubmit)}
           >
-            <div className="flex flex-col gap-5">
+            <div className="flex flex-col gap-3">
               <FormField
                 control={form.control}
                 name="email"
