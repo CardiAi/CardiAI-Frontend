@@ -26,7 +26,10 @@ const formSchema = z.object({
   name: z.string().min(5, {
     message: "Username must be at least 5 characters.",
   }),
-  age: z.coerce.number().int().positive(),
+  age: z.coerce
+    .number({ message: "Age must be a number" })
+    .int({ message: "Age must be an integer number" })
+    .positive({ message: "Age must be a positive number" }),
   gender: z.enum(["male", "female"]),
 });
 
@@ -36,7 +39,7 @@ export default function CreatePatientFormDialog() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
-      age: undefined,
+      age: 0,
       gender: "male",
     },
   });

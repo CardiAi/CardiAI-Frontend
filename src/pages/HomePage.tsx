@@ -36,7 +36,7 @@ export default function HomePage() {
 
   return (
     <div className="mt-10 space-y-4">
-      <div className="flex justify-between gap-10 items-center flex-wrap">
+      <div className="flex justify-between gap-10 items-center flex-wrap overflow-hidden">
         <h1 className="lg:text-5xl md:text-4xl sm:text-2xl text-xl font-bold text-xl">
           Patients
         </h1>
@@ -46,9 +46,9 @@ export default function HomePage() {
               key="controls"
               className="flex gap-2 "
               transition={{ duration: 0.5 }}
-              initial={{ x: 50, opacity: 0 }}
+              initial={{ x: 100, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
-              exit={{ x: 50, opacity: 0 }}
+              exit={{ x: 100, opacity: 0 }}
             >
               <Button
                 onClick={() => setIsSearchOpen(true)}
@@ -87,9 +87,9 @@ export default function HomePage() {
             <motion.label
               key={"search"}
               transition={{ duration: 0.5 }}
-              initial={{ x: -50, opacity: 0 }}
+              initial={{ x: -100, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
-              exit={{ x: -50, opacity: 0 }}
+              exit={{ x: -100, opacity: 0 }}
               htmlFor="search"
               className="border rounded-md overflow-hidden flex relative items-center"
             >
@@ -110,8 +110,8 @@ export default function HomePage() {
       </div>
       <section className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-5 py-3">
         {/* Patients Container  */}
-        {Array.from({ length: 100 }, () => (
-          <PatientCard />
+        {Array.from({ length: 100 }, (_, i) => (
+          <PatientCard key={i} />
         ))}
       </section>
     </div>
