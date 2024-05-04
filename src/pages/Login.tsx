@@ -52,7 +52,7 @@ function Login() {
       <img
         src="/Logo.svg"
         alt="Logo"
-        className="w-[200px] h-[62px] object-cover self-start"
+        className="md:w-[200px] md:h-[62px] object-cover self-start"
       />
 
       <div className="flex flex-col flex-1 space-y-7 w-full max-w-80">
