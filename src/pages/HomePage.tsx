@@ -84,27 +84,32 @@ export default function HomePage() {
             </motion.div>
           )}
           {isSearchOpen && (
-            <motion.label
+            <motion.div
               key={"search"}
               transition={{ duration: 0.5 }}
               initial={{ x: -100, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: -100, opacity: 0 }}
-              htmlFor="search"
-              className="border rounded-md overflow-hidden flex relative items-center"
+              className="relative"
             >
-              <Input
-                id="search"
-                placeholder="Search"
-                onChange={debounced}
-                className="border-none focus-visible:ring-0 focus-visible:ring-offset-0"
-              />
+              <label
+                htmlFor="search"
+                className="border rounded-md overflow-hidden flex items-center"
+              >
+                <Input
+                  id="search"
+                  placeholder="Search"
+                  onChange={debounced}
+                  className="border-none focus-visible:ring-0 focus-visible:ring-offset-0"
+                />
+              </label>
+
               <X
                 size={16}
                 onClick={() => setIsSearchOpen(false)}
                 className="absolute right-2 hover:text-red-600 cursor-pointer top-1/2 -translate-y-1/2"
               />
-            </motion.label>
+            </motion.div>
           )}
         </AnimatePresence>
       </div>
