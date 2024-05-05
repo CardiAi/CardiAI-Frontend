@@ -46,7 +46,7 @@ function AppPagination({ meta }: { meta: IPatientsMeta }) {
         <>
           {current_page <= 3 ? (
             <>
-              {trimmedLinks.slice(0, 3).map((link) => (
+              {trimmedLinks.slice(0, 4).map((link) => (
                 <li
                   onClick={() => {
                     searchParams.set("page", link.page || "1");
@@ -145,7 +145,7 @@ function AppPagination({ meta }: { meta: IPatientsMeta }) {
               </li>
               <span className="text-primary-blue">...</span>
 
-              {trimmedLinks.slice(-3).map((link) => (
+              {trimmedLinks.slice(-4).map((link) => (
                 <li
                   onClick={() => {
                     searchParams.set("page", link.page || "1");

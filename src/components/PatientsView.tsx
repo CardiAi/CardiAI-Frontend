@@ -1,6 +1,6 @@
 import { usePatientsData } from "@/hook/usePatientsData";
 
-import { useSearchParams } from "react-router-dom";
+import { Navigate, useSearchParams } from "react-router-dom";
 import PatientCard from "./PatientCard";
 import AppPagination from "./AppPagination";
 import { IPatient } from "@/Interfaces";
@@ -9,9 +9,10 @@ function PatientsView() {
   const { data, isLoading, isError } = usePatientsData(
     parseInt(searchParams.get("page") || "1") || 1
   );
+
   if (isLoading)
     return (
-      <section className="grid min-[600px]:grid-cols-2 gap-5 py-3 flex-1">
+      <section className="grid min-[600px]:grid-cols-2 gap-5 py-3 flex-1 auto-rows-[80px]">
         {/* Patients Container  */}
         {Array.from({ length: 10 }, (_, i) => (
           <PatientCard isLoading key={i} />
@@ -26,9 +27,15 @@ function PatientsView() {
         </h2>
       </section>
     );
+  if (
+    !data?.data?.length &&
+    searchParams.get("page") &&
+    parseInt(searchParams.get("page") || "") !== 1
+  )
+    return <Navigate to="/" />;
   return (
     <>
-      <section className="grid min-[600px]:grid-cols-2 gap-5 py-3 flex-1">
+      <section className="grid min-[600px]:grid-cols-2 gap-5 py-3 flex-1 auto-rows-[80px]">
         {/* Patients Container  */}
         {data?.data?.length ? (
           data?.data?.map((patient: IPatient) => (

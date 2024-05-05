@@ -6,18 +6,21 @@ import Signup from "./pages/Signup";
 import AppLayout from "./layouts/AppLayout";
 import HomePage from "./pages/HomePage";
 import { Toaster } from "react-hot-toast";
+import AuthCheck from "./components/AuthCheck";
 const queryClient = new QueryClient();
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/" element={<AppLayout />}>
-            <Route index element={<HomePage />} />
-          </Route>
-        </Routes>
+        <AuthCheck>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/" element={<AppLayout />}>
+              <Route index element={<HomePage />} />
+            </Route>
+          </Routes>
+        </AuthCheck>
       </BrowserRouter>
       <Toaster
         position="top-right"

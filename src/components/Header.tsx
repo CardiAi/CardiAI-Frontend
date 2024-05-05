@@ -8,6 +8,7 @@ import { logout } from "@/store/userSlice";
 function Header() {
   const { mutate, isPending } = useLogout();
   const dispatch = useAppDispatch();
+
   return (
     <header className=" bg-primary-blue sticky top-0 z-50">
       <div className="container py-2 flex items-center justify-between">
