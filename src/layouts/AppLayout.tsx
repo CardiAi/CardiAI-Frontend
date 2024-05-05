@@ -1,14 +1,17 @@
 import Header from "@/components/Header";
+import ProtectedRoute from "@/components/ProtectedRoute";
 import { Outlet } from "react-router-dom";
 
 const AppLayout = () => {
   return (
-    <main>
-      <Header />
-      <div className="container">
-        <Outlet />
-      </div>
-    </main>
+    <ProtectedRoute>
+      <main className=" min-h-screen flex flex-col">
+        <Header />
+        <div className="container flex flex-col flex-1">
+          <Outlet />
+        </div>
+      </main>
+    </ProtectedRoute>
   );
 };
 

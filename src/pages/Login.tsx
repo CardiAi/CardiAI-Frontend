@@ -13,29 +13,14 @@ import { Eye } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Link } from "react-router-dom";
-const formSchema = z
-  .object({
-    email: z.string().email({ message: "Invalid email" }),
-    password: z.string().min(8, { message: "Invalid password" }),
-  })
-  .superRefine(({ password }, ctx) => {
-    if (
-      !(
-        password.match(/[A-Z]/g) &&
-        password.match(/[a-z]/g) &&
-        password.match(/[0-9]/g) &&
-        !password.match(/[^A-Za-z0-9]/g)
-      )
-    ) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["password"],
-        message: "Invalid password",
-      });
-    }
-  });
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import { loginFormSchema as formSchema } from "@/schemas";
+import { useLogin } from "@/hook/useLogin";
+import toast from "react-hot-toast";
+import { useAppDispatch, useAppSelector } from "@/hook/useStore";
+import { storeUser } from "@/store/userSlice";
 function Login() {
+  const user = useAppSelector((state) => state.user);
   const [showPassword, setShowPassword] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -44,8 +29,24 @@ function Login() {
       password: "",
     },
   });
+  const dispatch = useAppDispatch();
+  const { mutate, isPending } = useLogin();
+  const navigate = useNavigate();
   function onSubmit(data: z.infer<typeof formSchema>) {
-    console.log(data);
+    const loadingToast = toast.loading("Signing in...");
+    mutate(data, {
+      onSuccess(data) {
+        toast.success("Login successful", { id: loadingToast });
+        dispatch(storeUser(data));
+        navigate("/");
+      },
+      onError(error) {
+        toast.error(error.message, { id: loadingToast });
+      },
+    });
+  }
+  if (user) {
+    return <Navigate to="/" />;
   }
   return (
     <main className="p-2 md:px-8 md:py-5 lg:px-14 lg:py-7 min-h-screen flex flex-col items-center gap-4">
@@ -76,6 +77,7 @@ function Login() {
                         className="focus-visible:ring-0 focus-visible:ring-offset-0 rounded-none w-full"
                         placeholder="Email"
                         type="email"
+                        disabled={isPending}
                         {...field}
                       />
                     </FormControl>
@@ -91,6 +93,7 @@ function Login() {
                     <FormControl>
                       <label className="flex items-center border pr-2">
                         <Input
+                          disabled={isPending}
                           type={showPassword ? "text" : "password"}
                           className="focus-visible:ring-0 focus-visible:ring-offset-0 rounded-none w-full border-none"
                           placeholder="Password"
@@ -108,13 +111,17 @@ function Login() {
               />
             </div>
             <div className="flex flex-col gap-4">
-              <Button className="bg-primary-blue hover:bg-primary-blue">
+              <Button
+                disabled={isPending}
+                className="bg-primary-blue hover:bg-primary-blue"
+              >
                 {" "}
                 Login
               </Button>
               <Separator className="bg-[#726C6C] flex items-center justify-center before:content-['or'] before:bg-white before:px-1" />
               <Button
                 type="button"
+                disabled={isPending}
                 asChild
                 className="bg-secondary-blue hover:bg-secondary-blue text-primary-blue"
               >

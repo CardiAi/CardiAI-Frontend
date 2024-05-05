@@ -21,20 +21,15 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Label } from "./ui/label";
 import { useState } from "react";
-
-const formSchema = z.object({
-  name: z.string().min(5, {
-    message: "Username must be at least 5 characters.",
-  }),
-  age: z.coerce
-    .number({ message: "Age must be a number" })
-    .int({ message: "Age must be an integer number" })
-    .positive({ message: "Age must be a positive number" }),
-  gender: z.enum(["male", "female"]),
-});
+import { patientSchema as formSchema } from "@/schemas";
+import { useCreatePatient } from "@/hook/useCreatePatient";
+import toast from "react-hot-toast";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function CreatePatientFormDialog() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const { mutate, isPending } = useCreatePatient();
+  const queryClient = useQueryClient();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -44,7 +39,20 @@ export default function CreatePatientFormDialog() {
     },
   });
   function onSubmit(data: z.infer<typeof formSchema>) {
-    console.log(data);
+    const submitToast = toast.loading("Creating patient...");
+    mutate(data, {
+      onSuccess: () => {
+        toast.success("Patient created successfully", {
+          id: submitToast,
+        });
+        queryClient.invalidateQueries({ queryKey: ["patients"] });
+        form.reset();
+        setIsOpen(false);
+      },
+      onError(error) {
+        toast.error(error.message, { id: submitToast });
+      },
+    });
   }
 
   return (
@@ -75,6 +83,7 @@ export default function CreatePatientFormDialog() {
                   <FormLabel>Name</FormLabel>
                   <FormControl>
                     <Input
+                      disabled={isPending}
                       className="focus-visible:ring-0 focus-visible:ring-offset-0"
                       placeholder="Name"
                       {...field}
@@ -92,6 +101,7 @@ export default function CreatePatientFormDialog() {
                   <FormLabel>Age</FormLabel>
                   <FormControl>
                     <Input
+                      disabled={isPending}
                       className="focus-visible:ring-0 focus-visible:ring-offset-0"
                       placeholder="Age"
                       type="number"
@@ -113,6 +123,7 @@ export default function CreatePatientFormDialog() {
                 >
                   {form.getValues().gender === "male" && <Check size={16} />}
                   <Input
+                    disabled={isPending}
                     id="male"
                     type="radio"
                     value={"male"}
@@ -127,6 +138,7 @@ export default function CreatePatientFormDialog() {
                   htmlFor="female"
                 >
                   <Input
+                    disabled={isPending}
                     type="radio"
                     value={"female"}
                     className="hidden"
@@ -141,6 +153,7 @@ export default function CreatePatientFormDialog() {
               </div>
             </div>
             <Button
+              disabled={isPending}
               className="w-full bg-primary-blue hover:bg-secondary-blue hover:text-primary-blue"
               type="submit"
             >

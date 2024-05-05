@@ -5,7 +5,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import AppLayout from "./layouts/AppLayout";
 import HomePage from "./pages/HomePage";
-
+import { Toaster } from "react-hot-toast";
 const queryClient = new QueryClient();
 const App = () => {
   return (
@@ -19,6 +19,12 @@ const App = () => {
           </Route>
         </Routes>
       </BrowserRouter>
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 2000,
+        }}
+      />
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
