@@ -25,7 +25,7 @@ function PatientCard({
       </div>
     );
   return (
-    <Link className="odd:last:col-span-2 max-h-20" to={"/login"}>
+    <Link className="odd:last:col-span-full max-h-20" to={"/login"}>
       <div className="bg-secondary-blue hover:bg-slate-300 flex justify-between items-center gap-5 p-2 rounded-xl">
         <div className="flex gap-4">
           <div className="size-16 rounded-full bg-[#DB45451A] flex items-center justify-center">
