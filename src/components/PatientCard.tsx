@@ -11,7 +11,7 @@ function PatientCard({
 }) {
   if (isLoading)
     return (
-      <div className="odd:last:col-span-2 cursor-pointer max-h-20">
+      <div className="odd:last:col-span-full cursor-pointer max-h-20">
         <div className="bg-secondary-blue hover:bg-slate-300 flex justify-between items-center gap-5 p-2 rounded-xl">
           <div className="flex gap-4">
             <Skeleton className="size-16 rounded-full bg-[#DB45451A] flex items-center justify-center" />
