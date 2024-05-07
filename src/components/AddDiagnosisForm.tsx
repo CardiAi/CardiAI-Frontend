@@ -248,6 +248,7 @@ function AddDiagnosisForm({ setOpen }: { setOpen: (open: boolean) => void }) {
                       <CustomSelect
                         disabled={isPending}
                         className="focus:ring-0 focus:ring-offset-0 bg-[#FAFAFA] border-transparent rounded-b-none border-b-black"
+                        // @ts-expect-error - null is a valid value
                         field={field}
                         placeholder="ECG Results"
                         values={[
