@@ -1,4 +1,4 @@
-import { Check, Plus } from "lucide-react";
+import { Check, Edit, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -25,34 +25,62 @@ import { patientSchema as formSchema } from "@/schemas";
 import { useCreatePatient } from "@/hook/useCreatePatient";
 import toast from "react-hot-toast";
 import { useQueryClient } from "@tanstack/react-query";
+import { useParams } from "react-router-dom";
 
-export default function CreatePatientFormDialog() {
+export default function CreatePatientFormDialog({
+  isEditing,
+  patient,
+}: {
+  isEditing?: boolean;
+  patient?: z.infer<typeof formSchema>;
+}) {
+  const { patientID } = useParams();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { mutate, isPending } = useCreatePatient();
   const queryClient = useQueryClient();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      age: 0,
-      gender: "male",
+      name: isEditing ? patient?.name : "",
+      age: isEditing ? patient?.age : 0,
+      gender: isEditing ? patient?.gender : "male",
     },
   });
   function onSubmit(data: z.infer<typeof formSchema>) {
     const submitToast = toast.loading("Creating patient...");
-    mutate(data, {
-      onSuccess: () => {
-        toast.success("Patient created successfully", {
-          id: submitToast,
-        });
-        queryClient.invalidateQueries({ queryKey: ["patients"] });
-        form.reset();
-        setIsOpen(false);
-      },
-      onError(error) {
-        toast.error(error.message, { id: submitToast });
-      },
-    });
+    mutate(
+      { ...data, isEditing, patientID },
+      {
+        onSuccess: (data) => {
+          toast.success(
+            isEditing
+              ? "Patient edited successfully..."
+              : "Patient created successfully",
+            {
+              id: submitToast,
+            }
+          );
+          queryClient.invalidateQueries({
+            queryKey: ["patients"],
+          });
+          queryClient.refetchQueries({ queryKey: ["patients"] });
+          if (isEditing) {
+            queryClient.setQueriesData(
+              { queryKey: ["patient", patientID] },
+              data
+            );
+            queryClient.invalidateQueries({
+              queryKey: ["patient", patientID],
+            });
+          }
+          if (!isEditing) form.reset();
+          setIsOpen(false);
+        },
+        onError(error) {
+          toast.error(error.message, { id: submitToast });
+        },
+      }
+    );
   }
 
   return (
@@ -64,9 +92,18 @@ export default function CreatePatientFormDialog() {
       }}
     >
       <DialogTrigger asChild>
-        <Button className="flex gap-1 bg-primary-blue items-center hover:bg-secondary-blue hover:text-primary-blue text-xs">
-          <Plus size={18} />
-          Add Patient
+        <Button
+          size={isEditing ? "icon" : "default"}
+          className="flex gap-1 bg-primary-blue items-center hover:bg-secondary-blue hover:text-primary-blue text-xs"
+        >
+          {isEditing ? (
+            <Edit size={18} />
+          ) : (
+            <>
+              <Plus size={18} />
+              Add Patient
+            </>
+          )}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
@@ -127,7 +164,7 @@ export default function CreatePatientFormDialog() {
                     id="male"
                     type="radio"
                     value={"male"}
-                    defaultChecked
+                    checked={form.getValues().gender === "male"}
                     className="hidden"
                     {...form.register("gender")}
                   />
@@ -141,6 +178,7 @@ export default function CreatePatientFormDialog() {
                     disabled={isPending}
                     type="radio"
                     value={"female"}
+                    checked={form.getValues().gender === "female"}
                     className="hidden"
                     id="female"
                     {...form.register("gender")}

@@ -1,14 +1,12 @@
-import { Link } from "react-router-dom";
+import { IRecord } from "@/Interfaces";
 import { Skeleton } from "./ui/skeleton";
-import { IPatient } from "@/Interfaces";
+import { Link } from "react-router-dom";
 
-function PatientCard({
-  isLoading,
-  patient,
-}: {
+interface IProps {
   isLoading?: boolean;
-  patient?: IPatient;
-}) {
+  record?: IRecord;
+}
+const RecordCard = ({ isLoading, record }: IProps) => {
   if (isLoading)
     return (
       <div className="odd:last:col-span-full cursor-pointer max-h-20">
@@ -27,28 +25,25 @@ function PatientCard({
   return (
     <Link
       className="odd:last:col-span-full max-h-20"
-      to={`/patient/${patient?.id}`}
+      to={`/record/${record?.id}`}
     >
       <div className="bg-secondary-blue hover:bg-slate-300 flex justify-between items-center gap-5 p-2 rounded-xl">
         <div className="flex gap-4">
           <div className="size-16 rounded-full bg-[#DB45451A] flex items-center justify-center">
             <img src="/Degree IV.svg" alt="" />
           </div>
-          <div className="flex flex-col justify-center gap-2">
-            <h2 className="font-bold max-w-32 whitespace-nowrap text-ellipsis overflow-hidden">
-              {patient?.name}
-            </h2>
-            <p className="text-sm text-[#552636]">
-              {patient?.last_result || "Not Found"}
-            </p>
-          </div>
+          <p className="font-bold">
+            {
+              // new Date(record.created_at)
+            }
+          </p>
         </div>
         <p className="flex-1 text-right text-xs">
-          {new Date(patient?.created_at || Date.now()).toLocaleDateString()}
+          {new Date(record?.created_at || Date.now()).toLocaleDateString()}
         </p>
       </div>
     </Link>
   );
-}
+};
 
-export default PatientCard;
+export default RecordCard;

@@ -73,3 +73,38 @@ export const patientSchema = z.object({
     .positive({ message: "Age must be a positive number" }),
   gender: z.enum(["male", "female"]),
 });
+export const diagnosisSchema = z.object({
+  chest_pain: z.enum([
+    "typical angina",
+    "atypical angina",
+    "non-anginal",
+    "asymptomatic",
+  ]),
+  blood_pressure: z.coerce
+    .number()
+    .int({ message: "Blood Pressure must be integer." })
+    .positive({ message: "Blood Pressure must be positive number." })
+    .optional(),
+  cholesterol: z.coerce
+    .number()
+    .int("Cholestrol must be integer")
+    .positive("Cholestrol must be positive number.")
+    .optional(),
+  blood_sugar: z.coerce
+    .number()
+    .int("Blood Sugar must be integer")
+    .positive({ message: "Blood Sugar must be positive number." }),
+  max_thal: z.coerce
+    .number()
+    .int("Maximum Heart rate shoul be integer.")
+    .positive("Maximum Heart rate shoul be positive number."),
+  exercise_angina: z.coerce.boolean(),
+  coronary_artery: z.coerce
+    .number()
+    .int({ message: "Cornary Artery must be integer." })
+    .positive({ message: "Cornary Artery must be positive number." }),
+  slope: z.enum(["upsloping", "flat", "downsloping"]),
+  thal: z.enum(["normal", "fixed defect", "reversible defect"]),
+  ecg: z.enum(["normal", "sst abnormality", "lv hypertrophy"]).optional(),
+  old_peak: z.coerce.number(),
+});

@@ -7,6 +7,8 @@ import AppLayout from "./layouts/AppLayout";
 import HomePage from "./pages/HomePage";
 import { Toaster } from "react-hot-toast";
 import AuthCheck from "./components/AuthCheck";
+import PatientLayout from "./layouts/PatientLayout";
+import PatientPage from "./pages/PatientPage";
 const queryClient = new QueryClient();
 const App = () => {
   return (
@@ -18,6 +20,11 @@ const App = () => {
             <Route path="/signup" element={<Signup />} />
             <Route path="/" element={<AppLayout />}>
               <Route index element={<HomePage />} />
+              <Route path="patient/:patientID" element={<PatientLayout />}>
+                <Route index element={<PatientPage />} />
+                <Route path=":recordID" element={<h1>Not re</h1>} />
+              </Route>
+              <Route path="*" element={<h1>Not Found</h1>} />
             </Route>
           </Routes>
         </AuthCheck>
@@ -28,7 +35,11 @@ const App = () => {
           duration: 2000,
         }}
       />
-      <ReactQueryDevtools initialIsOpen={false} />
+      <ReactQueryDevtools
+        position="left"
+        buttonPosition="bottom-left"
+        initialIsOpen={false}
+      />
     </QueryClientProvider>
   );
 };

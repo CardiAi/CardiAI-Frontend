@@ -76,4 +76,20 @@
   body {
     @apply bg-background text-foreground;
   }
+  form::-webkit-scrollbar {
+    width: 1px;
+  }
+  form::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
 }
