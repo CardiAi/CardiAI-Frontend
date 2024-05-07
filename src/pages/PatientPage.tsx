@@ -1,6 +1,5 @@
 import CreateDiagnosisFormDialog from "@/components/CreateDiagnosisFormDialog";
 import RecordsView from "@/components/RecordsView";
-import React from "react";
 
 function PatientPage() {
   return (
