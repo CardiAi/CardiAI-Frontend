@@ -1,9 +1,9 @@
-// import { ChangeEvent, useState } from "react";
-// import { useSearchParams } from "react-router-dom";
+import { ChangeEvent, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import CreatePatientFormDialog from "@/components/CreatePatientFormDialog";
-// import { Button } from "@/components/ui/button";
-// import { Input } from "@/components/ui/input";
-// import { useDebouncedCallback } from "use-debounce";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useDebouncedCallback } from "use-debounce";
 // import {
 //   Select,
 //   SelectValue,
@@ -12,23 +12,19 @@ import CreatePatientFormDialog from "@/components/CreatePatientFormDialog";
 //   SelectTrigger,
 // } from "@/components/ui/select";
 import { AnimatePresence, motion } from "framer-motion";
-// import {
-// ArrowDown, ArrowUp,
-// Search,
-// X,
-// } from "lucide-react";
+import { Search, X } from "lucide-react";
 function PatientsControlBox() {
-  // const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
-  // const [searchParams, setSearchParams] = useSearchParams();
-  // const debounced = useDebouncedCallback((e: ChangeEvent<HTMLInputElement>) => {
-  //   if (e.target.value) {
-  //     searchParams.set("search", e.target.value);
-  //     setSearchParams(searchParams);
-  //   } else {
-  //     searchParams.delete("search");
-  //     setSearchParams(searchParams);
-  //   }
-  // }, 500);
+  const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const debounced = useDebouncedCallback((e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value) {
+      searchParams.set("search", e.target.value);
+      setSearchParams(searchParams);
+    } else {
+      searchParams.delete("search");
+      setSearchParams(searchParams);
+    }
+  }, 350);
   // const sortFilter: "name-asc" | "name-dsc" | undefined =
   //   // prettier-ignore
   //   (searchParams.get("sort") === "name-asc") ||
@@ -38,8 +34,7 @@ function PatientsControlBox() {
 
   return (
     <AnimatePresence initial={false} mode="wait">
-      {
-        // !isSearchOpen &&
+      {!isSearchOpen && (
         <motion.div
           key="controls"
           className="flex gap-2 "
@@ -48,14 +43,14 @@ function PatientsControlBox() {
           animate={{ x: 0, opacity: 1 }}
           exit={{ x: 100, opacity: 0 }}
         >
-          {/* <Button
+          <Button
             onClick={() => {
               setIsSearchOpen(true);
             }}
             className="aspect-square p-2 rounded-full bg-white hover:bg-slate-300 text-gray-600"
           >
             <Search />
-          </Button> */}
+          </Button>
           {/* <Select
                 value={sortFilter}
                 onValueChange={(d) => {
@@ -82,16 +77,16 @@ function PatientsControlBox() {
 
           <CreatePatientFormDialog />
         </motion.div>
-      }
+      )}
 
-      {/* {isSearchOpen && (
+      {isSearchOpen && (
         <motion.div
           key={"search"}
           transition={{ duration: 0.5 }}
           initial={{ x: -100, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           exit={{ x: -100, opacity: 0 }}
-          className="relative p-0"
+          className="relative p-0 h-10"
         >
           <label
             htmlFor="search"
@@ -111,7 +106,7 @@ function PatientsControlBox() {
             className="absolute right-2 hover:text-red-600 cursor-pointer top-1/2 -translate-y-1/2"
           />
         </motion.div>
-      )} */}
+      )}
     </AnimatePresence>
   );
 }

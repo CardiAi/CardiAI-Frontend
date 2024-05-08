@@ -36,6 +36,8 @@
     --radius: 0.5rem;
     --primary-blue: #008dda;
     --secondary-blue: #d5f0ff;
+    --len: 242.776657104492px;
+    --time: 1.6s;
   }
 
   .dark {
@@ -91,5 +93,25 @@
   /* Firefox */
   input[type="number"] {
     -moz-appearance: textfield;
+  }
+}
+#outline {
+  stroke-dasharray: calc(var(--len) * 0.01), var(--len);
+  stroke-dashoffset: 0;
+  animation: anim var(--time) linear infinite;
+  -webkit-animation: anim var(--time) linear infinite;
+}
+@keyframes anim {
+  12.5% {
+    stroke-dasharray: calc(var(--len) * 0.14), var(--len);
+    stroke-dashoffset: calc(-1 * var(--len) * 0.11);
+  }
+  43.75% {
+    stroke-dasharray: calc(var(--len) * 0.35), var(--len);
+    stroke-dashoffset: calc(-1 * var(--len) * 0.35);
+  }
+  100% {
+    stroke-dasharray: calc(var(--len) * 0.01), var(--len);
+    stroke-dashoffset: calc(-1 * var(--len) * 0.99);
   }
 }

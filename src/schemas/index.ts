@@ -81,30 +81,37 @@ export const diagnosisSchema = z.object({
     "asymptomatic",
   ]),
   blood_pressure: z.coerce
-    .number()
+    .number({ message: "Blood Pressure must be number." })
     .int({ message: "Blood Pressure must be integer." })
-    .positive({ message: "Blood Pressure must be positive number." })
+    .min(0, { message: "Blood Pressure must be positive number." })
+    .max(200, { message: "Blood Pressure must be less than 200." })
     .optional(),
   cholesterol: z.coerce
-    .number()
+    .number({ message: "Cholestrol must be number." })
     .int("Cholestrol must be integer")
-    .positive("Cholestrol must be positive number.")
+    .min(0, { message: "Cholestrol must be positive number." })
+    .max(603, { message: "Cholestrol must be less than 603." })
     .optional(),
   blood_sugar: z.coerce
-    .number()
+    .number({ message: "Blood Sugar must be entered as number." })
     .int("Blood Sugar must be integer")
-    .positive({ message: "Blood Sugar must be positive number." }),
+    .min(0, { message: "Blood Sugar must be positive number." }),
   max_thal: z.coerce
-    .number()
+    .number({ message: "Maximum Heart rate must be entered as number." })
     .int("Maximum Heart rate shoul be integer.")
-    .positive("Maximum Heart rate shoul be positive number."),
+    .min(60, { message: "Maximum Heart rate should be greater than 60." })
+    .max(202, { message: "Maximum Heart rate should be less than 202." }),
   exercise_angina: z.coerce.boolean(),
   coronary_artery: z.coerce
-    .number()
-    .int({ message: "Cornary Artery must be integer." })
-    .positive({ message: "Cornary Artery must be positive number." }),
+    .number({ message: "Cornary Artery must be entered as a number." })
+    .int("Cornary Artery must be integer.")
+    .min(0, { message: "Cornary Artery must be positive number." })
+    .max(3, { message: "Cornary Artery must be less than 3." }),
   slope: z.enum(["upsloping", "flat", "downsloping"]),
   thal: z.enum(["normal", "fixed defect", "reversible defect"]),
-  ecg: z.enum(["normal", "sst abnormality", "lv hypertrophy"]).optional(),
-  old_peak: z.coerce.number(),
+  ecg: z.enum(["normal", "stt abnormality", "lv hypertrophy"]).optional(),
+  old_peak: z.coerce
+    .number({ message: "Old Peak must be entered as a number." })
+    .min(-2.6, { message: "Old Peak must be greater than -2.6." })
+    .max(6.2, { message: "Old Peak must be less than 6.2." }),
 });

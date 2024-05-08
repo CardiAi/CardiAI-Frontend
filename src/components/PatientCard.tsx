@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import { Skeleton } from "./ui/skeleton";
 import { IPatient } from "@/Interfaces";
-
+import { resultsImgMap, resultsMap } from "@/Maps";
+import DegreeIV from "../assets/Degree IV.svg";
 function PatientCard({
   isLoading,
   patient,
@@ -32,14 +33,23 @@ function PatientCard({
       <div className="bg-secondary-blue hover:bg-slate-300 flex justify-between items-center gap-5 p-2 rounded-xl">
         <div className="flex gap-4">
           <div className="size-16 rounded-full bg-[#DB45451A] flex items-center justify-center">
-            <img src="/Degree IV.svg" alt="" />
+            <img
+              src={
+                patient?.last_result
+                  ? resultsImgMap[+patient.last_result]
+                  : DegreeIV
+              }
+              alt=""
+            />
           </div>
           <div className="flex flex-col justify-center gap-2">
             <h2 className="font-bold max-w-32 whitespace-nowrap text-ellipsis overflow-hidden">
               {patient?.name}
             </h2>
             <p className="text-sm text-[#552636]">
-              {patient?.last_result || "Not Found"}
+              {patient?.last_result
+                ? resultsMap[+patient.last_result]
+                : "Not Found"}
             </p>
           </div>
         </div>

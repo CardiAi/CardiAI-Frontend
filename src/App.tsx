@@ -9,6 +9,7 @@ import { Toaster } from "react-hot-toast";
 import AuthCheck from "./components/AuthCheck";
 import PatientLayout from "./layouts/PatientLayout";
 import PatientPage from "./pages/PatientPage";
+import RecordPage from "./pages/RecordPage";
 const queryClient = new QueryClient();
 const App = () => {
   return (
@@ -22,7 +23,7 @@ const App = () => {
               <Route index element={<HomePage />} />
               <Route path="patient/:patientID" element={<PatientLayout />}>
                 <Route index element={<PatientPage />} />
-                <Route path=":recordID" element={<h1>Not re</h1>} />
+                <Route path=":recordID" element={<RecordPage />} />
               </Route>
               <Route path="*" element={<h1>Not Found</h1>} />
             </Route>

@@ -3,7 +3,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-export function useRecordsData(page: number = 1) {
+export function useRecordsData(page: number) {
   const { patientID } = useParams();
   const { data, isLoading, isError, error } = useQuery({
     queryFn: () => getPatientRecords(patientID || "", page),

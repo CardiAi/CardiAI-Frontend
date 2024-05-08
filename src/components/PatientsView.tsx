@@ -7,7 +7,8 @@ import { IPatient } from "@/Interfaces";
 function PatientsView() {
   const [searchParams] = useSearchParams();
   const { data, isLoading, isError } = usePatientsData(
-    parseInt(searchParams.get("page") || "1") || 1
+    parseInt(searchParams.get("page") || "1") || 1,
+    searchParams.get("search") || undefined
   );
 
   if (isLoading)
@@ -32,10 +33,10 @@ function PatientsView() {
     searchParams.get("page") &&
     parseInt(searchParams.get("page") || "") !== 1
   )
-    return <Navigate to="/" />;
+    return <Navigate replace to="/" />;
   return (
     <>
-      <section className="grid min-[600px]:grid-cols-2 gap-5 py-3 flex-1 auto-rows-[80px]">
+      <section className="grid min-[600px]:grid-cols-2 gap-4 py-3 flex-1 auto-rows-[80px]">
         {/* Patients Container  */}
         {data?.data?.length ? (
           data?.data?.map((patient: IPatient) => (

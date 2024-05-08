@@ -1,6 +1,10 @@
 import { cloneElement, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import HeartImg from "@/assets/heart.png";
+import SlopeImg from "@/assets/slope.png";
+import ThalImg from "@/assets/thal.png";
+import ExerciseImg from "@/assets/exercise.png";
 import {
   Form,
   FormControl,
@@ -21,6 +25,8 @@ import CustomSelect from "./CustomSelect";
 import { Input } from "./ui/input";
 import { useCreateRecord } from "@/hook/useCreateRecord";
 import toast from "react-hot-toast";
+import { useQueryClient } from "@tanstack/react-query";
+import { useParams } from "react-router-dom";
 
 const transitions = {
   forward: {
@@ -44,17 +50,29 @@ function AddDiagnosisForm({ setOpen }: { setOpen: (open: boolean) => void }) {
   const [direction, setDirection] = useState<"forward" | "backward" | null>(
     null
   );
+  const queryClient = useQueryClient();
   const { mutate, isPending } = useCreateRecord();
   const [, startTransition] = useTransition();
   const [current, setCurrent] = useState(0);
+  const { patientID } = useParams();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      blood_pressure: undefined,
+      blood_sugar: 0,
+      cholesterol: undefined,
+      ecg: undefined,
+      max_thal: 60,
+      coronary_artery: 0,
+      old_peak: 0,
+    },
   });
-  const { getValues, trigger } = form;
+
+  const { trigger } = form;
   const nodes = [
     <SelctBox
       transition={transitions[direction || "forward"]}
-      img="/heart.png"
+      img={HeartImg}
       name="chest_pain"
       placeholder="What is the type of chest pain the patient feels?"
       options={[
@@ -67,7 +85,7 @@ function AddDiagnosisForm({ setOpen }: { setOpen: (open: boolean) => void }) {
     />,
     <SelctBox
       transition={transitions[direction || "forward"]}
-      img="/slope.png"
+      img={SlopeImg}
       name="slope"
       placeholder="What is the slope of the peak exercise ST segment?"
       options={[
@@ -79,7 +97,7 @@ function AddDiagnosisForm({ setOpen }: { setOpen: (open: boolean) => void }) {
     />,
     <SelctBox
       transition={transitions[direction || "forward"]}
-      img="/thal.png"
+      img={ThalImg}
       name="thal"
       placeholder="What would you classify the resulting condition of Thalassemia?"
       options={[
@@ -91,23 +109,26 @@ function AddDiagnosisForm({ setOpen }: { setOpen: (open: boolean) => void }) {
     />,
     <SelctBox
       transition={transitions[direction || "forward"]}
-      img="/exercise.png"
+      img={ExerciseImg}
       name="exercise_angina"
       placeholder=" Does the patient suffer from Exercise Angina?"
       options={[
-        { label: "Yes", value: "1" },
-        { label: "No", value: "0" },
+        { label: "Yes", value: 1 },
+        { label: "No", value: 0 },
       ]}
       register={form.register}
     />,
   ];
-  console.log(getValues());
   function onSubmit(data: z.infer<typeof formSchema>) {
     const myToast = toast.loading("Creating Diagnosis...");
     mutate(data, {
-      onSuccess: (data) => {
-        toast.success(data, { id: myToast });
+      onSuccess: () => {
+        toast.success("Diagnosis added Successfully.", { id: myToast });
         setOpen(false);
+        queryClient.invalidateQueries({ queryKey: ["patients"] });
+        queryClient.invalidateQueries({ queryKey: ["records", patientID] });
+        queryClient.invalidateQueries({ queryKey: ["patient", patientID] });
+        queryClient;
       },
       onError: (error) => {
         toast.error(error.message, { id: myToast });
@@ -254,8 +275,8 @@ function AddDiagnosisForm({ setOpen }: { setOpen: (open: boolean) => void }) {
                         values={[
                           { label: "Normal", value: "normal" },
                           {
-                            label: "SST Abnormality",
-                            value: "sst abnormality",
+                            label: "STT Abnormality",
+                            value: "stt abnormality",
                           },
                           { label: "LV Hypertrophy", value: "lv hypertrophy" },
                           // @ts-expect-error - null is a valid value
@@ -276,6 +297,8 @@ function AddDiagnosisForm({ setOpen }: { setOpen: (open: boolean) => void }) {
                         <label htmlFor="rbp">
                           <div className="relative">
                             <Input
+                              min={0}
+                              max={200}
                               disabled={isPending}
                               type="number"
                               className="focus-visible:ring-0 focus-visible:ring-offset-0 bg-[#FAFAFA] border-transparent rounded-b-none border-b-black"
@@ -306,6 +329,8 @@ function AddDiagnosisForm({ setOpen }: { setOpen: (open: boolean) => void }) {
                             <Input
                               disabled={isPending}
                               type="number"
+                              min={0}
+                              max={603}
                               className="focus-visible:ring-0 focus-visible:ring-offset-0 bg-[#FAFAFA] border-transparent rounded-b-none border-b-black"
                               id="chol"
                               placeholder="Cholestrol"
@@ -327,12 +352,14 @@ function AddDiagnosisForm({ setOpen }: { setOpen: (open: boolean) => void }) {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>
-                        What is the maximum heart rate achieved?
+                        What is the maximum heart rate achieved? *
                       </FormLabel>
                       <FormControl>
                         <label htmlFor="maxthal">
                           <div className="relative">
                             <Input
+                              min={60}
+                              max={202}
                               disabled={isPending}
                               type="number"
                               className="focus-visible:ring-0 focus-visible:ring-offset-0 bg-[#FAFAFA] border-transparent rounded-b-none border-b-black"
@@ -354,12 +381,14 @@ function AddDiagnosisForm({ setOpen }: { setOpen: (open: boolean) => void }) {
                     <FormItem>
                       <FormLabel>
                         What is the number of major vessels {"("}0-3{")"}{" "}
-                        colored by fluoroscopy?
+                        colored by fluoroscopy? *
                       </FormLabel>
                       <FormControl>
                         <label htmlFor="cor">
                           <div className="relative">
                             <Input
+                              min={0}
+                              max={3}
                               disabled={isPending}
                               type="number"
                               className="focus-visible:ring-0 focus-visible:ring-offset-0 bg-[#FAFAFA] border-transparent rounded-b-none border-b-black"
@@ -379,11 +408,12 @@ function AddDiagnosisForm({ setOpen }: { setOpen: (open: boolean) => void }) {
                   name="blood_sugar"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>What is the fasting blood sugar?</FormLabel>
+                      <FormLabel>What is the fasting blood sugar? *</FormLabel>
                       <FormControl>
                         <label htmlFor="sug">
                           <div className="relative">
                             <Input
+                              min={0}
                               type="number"
                               className="focus-visible:ring-0 focus-visible:ring-offset-0 bg-[#FAFAFA] border-transparent rounded-b-none border-b-black"
                               id="sug"
@@ -407,12 +437,14 @@ function AddDiagnosisForm({ setOpen }: { setOpen: (open: boolean) => void }) {
                     <FormItem>
                       <FormLabel>
                         What is the ST depression induced by exercise relative
-                        to rest?
+                        to rest? *
                       </FormLabel>
                       <FormControl>
                         <label htmlFor="peak">
                           <div className="relative">
                             <Input
+                              min={-2.6}
+                              max={6.2}
                               disabled={isPending}
                               className="focus-visible:ring-0 focus-visible:ring-offset-0 bg-[#FAFAFA] border-transparent rounded-b-none border-b-black"
                               id="peak"

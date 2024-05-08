@@ -1,7 +1,7 @@
 import { CircleCheck } from "lucide-react";
 import { motion } from "framer-motion";
 interface IValues {
-  value: string;
+  value: string | number;
   label: string;
 }
 interface IProps {
@@ -39,6 +39,7 @@ function SelctBox({
           const id = Math.random();
           return (
             <label
+              key={option.label}
               htmlFor={`${id}`}
               className="bg-[#FBF7EE] w-full py-3 px-3 md:px-6 rounded-lg cursor-pointer shadow-lg font-semibold text-lg hover:bg-secondary-blue has-[:checked]:bg-secondary-blue flex items-center justify-between"
             >

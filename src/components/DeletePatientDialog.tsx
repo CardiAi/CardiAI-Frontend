@@ -26,7 +26,7 @@ function DeletePatientDialog() {
       onSuccess: () => {
         toast.success("User deleted successfully.", { id: myToast });
         queryClient.invalidateQueries({ queryKey: ["patients"] });
-        navigate("/");
+        navigate("/", { replace: true });
       },
       onError: () => toast.error("Failed to delete user", { id: myToast }),
     });
@@ -40,7 +40,9 @@ function DeletePatientDialog() {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Are you sure you want to delete this user?</DialogTitle>
+          <DialogTitle>
+            Are you sure you want to delete this patient?
+          </DialogTitle>
           <DialogDescription>
             This action cannot be undone. This will permanently delete the user
             from the system.

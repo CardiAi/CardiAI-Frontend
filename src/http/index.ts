@@ -9,6 +9,7 @@ import {
 import { store } from "@/store/store";
 import { storeUser } from "@/store/userSlice";
 import axios, { AxiosError } from "axios";
+import { d } from "node_modules/@tanstack/react-query-devtools/build/modern/devtools-9h89nHJX";
 import { redirect } from "react-router-dom";
 import { z } from "zod";
 
@@ -64,10 +65,13 @@ export async function signup({
     throw new Error("An error occurred");
   }
 }
-export async function getPatients(page: number = 1) {
+export async function getPatients(page: number = 1, search?: string) {
   try {
     const token = localStorage.getItem("token");
-    const res = await instance.get(`/patients?page=${page}`, {
+    const searchParams = new URLSearchParams();
+    if (search) searchParams.set("search", search);
+    searchParams.set("page", page.toString());
+    const res = await instance.get(`/patients?${searchParams}`, {
       headers: {
         Authorization: `Bearer ${decrypt(
           token || "",
@@ -183,7 +187,7 @@ export async function getPatientData(id: string) {
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const err = error as AxiosError<{ message: string }>;
-      console.log(err.response?.data?.message);
+
       throw new Error(err.response?.data?.message);
     }
   }
@@ -193,6 +197,7 @@ export async function getPatientRecords(id: string, page: number = 1) {
     const token = localStorage.getItem("token");
     const searchParams = new URLSearchParams();
     if (page) searchParams.set("page", page.toString());
+
     const res = await instance.get(`/patient/${id}/records?${searchParams}`, {
       headers: {
         Authorization: `Bearer ${decrypt(
@@ -207,16 +212,22 @@ export async function getPatientRecords(id: string, page: number = 1) {
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const err = error as AxiosError<{ message: string }>;
-      console.log(err.response?.data?.message);
+
       throw new Error(err.response?.data?.message);
     }
   }
 }
 export async function createRecord(
   patientID: string,
-  data: z.infer<typeof diagnosisSchema>
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  data: { [key: string]: any }
 ) {
   try {
+    Object.keys(data).forEach((key) => {
+      if (data[key] !== undefined) return;
+      data[key] = null;
+    });
     const token = localStorage.getItem("token");
     const res = await instance.post(`/patient/${patientID}/record/add`, data, {
       headers: {
@@ -230,8 +241,7 @@ export async function createRecord(
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const err = error as AxiosError<{ message: string }>;
-      console.log(err.response?.data?.message);
-      console.log(err.response?.data);
+
       throw new Error(err.response?.data?.message);
     }
   }
@@ -251,7 +261,26 @@ export async function deletePatient(id: string) {
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const err = error as AxiosError<{ message: string }>;
-      console.log(err.response?.data?.message);
+
+      throw new Error(err.response?.data?.message);
+    }
+  }
+}
+export async function getRecord(id: string) {
+  try {
+    const token = localStorage.getItem("token");
+    const res = await instance.get(`/record/show/${id}`, {
+      headers: {
+        Authorization: `Bearer ${decrypt(
+          token || "",
+          import.meta.env.VITE_TOKEN_SECRET as string
+        )}`,
+      },
+    });
+    return res.data?.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      const err = error as AxiosError<{ message: string }>;
       throw new Error(err.response?.data?.message);
     }
   }
