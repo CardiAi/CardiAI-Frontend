@@ -10,6 +10,7 @@ import AuthCheck from "./components/AuthCheck";
 import PatientLayout from "./layouts/PatientLayout";
 import PatientPage from "./pages/PatientPage";
 import RecordPage from "./pages/RecordPage";
+import NotFound from "./pages/NotFound";
 const queryClient = new QueryClient();
 const App = () => {
   return (
@@ -25,8 +26,8 @@ const App = () => {
                 <Route index element={<PatientPage />} />
                 <Route path=":recordID" element={<RecordPage />} />
               </Route>
-              <Route path="*" element={<h1>Not Found</h1>} />
             </Route>
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthCheck>
       </BrowserRouter>

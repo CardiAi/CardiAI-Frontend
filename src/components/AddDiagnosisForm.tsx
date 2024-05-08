@@ -521,6 +521,12 @@ function AddDiagnosisForm({ setOpen }: { setOpen: (open: boolean) => void }) {
             {">>"}
           </Button>
         </div>
+        <div hidden>
+          <img src={HeartImg} alt="" />
+          <img src={ExerciseImg} alt="" />
+          <img src={SlopeImg} alt="" />
+          <img src={ThalImg} alt="" />
+        </div>
       </form>
     </Form>
   );

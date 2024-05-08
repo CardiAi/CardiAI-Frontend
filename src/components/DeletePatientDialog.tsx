@@ -54,6 +54,7 @@ function DeletePatientDialog() {
             Cancel
           </Button>
           <Button
+            className="mb-4 sm:mb-0"
             onClick={handleDelete}
             disabled={isPending}
             variant={"destructive"}
