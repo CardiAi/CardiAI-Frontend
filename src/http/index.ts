@@ -231,7 +231,9 @@ export async function createRecord(
         )}`,
       },
     });
-    return res.data?.message;
+    console.log(data);
+    console.log(res);
+    return res.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const err = error as AxiosError<{ message: string }>;

@@ -30,7 +30,7 @@ import { Input } from "./ui/input";
 import { useCreateRecord } from "@/hook/useCreateRecord";
 import toast from "react-hot-toast";
 import { useQueryClient } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const transitions = {
   forward: {
@@ -59,6 +59,7 @@ function AddDiagnosisForm({ setOpen }: { setOpen: (open: boolean) => void }) {
   const [, startTransition] = useTransition();
   const [current, setCurrent] = useState(0);
   const { patientID } = useParams();
+  const navigate = useNavigate();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -130,13 +131,21 @@ function AddDiagnosisForm({ setOpen }: { setOpen: (open: boolean) => void }) {
   function onSubmit(data: z.infer<typeof formSchema>) {
     const myToast = toast.loading("Creating Diagnosis...");
     mutate(data, {
-      onSuccess: () => {
+      onSuccess: (data) => {
         toast.success("Diagnosis added Successfully.", { id: myToast });
         setOpen(false);
         queryClient.invalidateQueries({ queryKey: ["patients"] });
         queryClient.invalidateQueries({ queryKey: ["records", patientID] });
         queryClient.invalidateQueries({ queryKey: ["patient", patientID] });
-        queryClient;
+        if (data?.data?.id) {
+          queryClient.setQueriesData(
+            {
+              queryKey: ["record", data?.data?.id],
+            },
+            data?.data
+          );
+          navigate(`/patient/${patientID}/${data?.data?.id}`);
+        }
       },
       onError: (error) => {
         toast.error(error.message, { id: myToast });
@@ -453,6 +462,8 @@ function AddDiagnosisForm({ setOpen }: { setOpen: (open: boolean) => void }) {
                             <Input
                               min={-2.6}
                               max={6.2}
+                              step={0.01}
+                              type="number"
                               disabled={isPending}
                               className="focus-visible:ring-0 focus-visible:ring-offset-0 bg-[#FAFAFA] border-transparent rounded-b-none border-b-black"
                               id="peak"

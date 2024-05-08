@@ -40,7 +40,11 @@ function PatientDetails({ data, isLoading }: IProps) {
       <div className="flex gap-4 items-center">
         <div className="size-16 rounded-full bg-[#DB45451A] flex items-center justify-center">
           <img
-            src={data.last_result ? resultsImgMap[data.last_result] : DegreeIV}
+            src={
+              data.last_result !== null
+                ? resultsImgMap[data.last_result]
+                : DegreeIV
+            }
             alt=""
           />
         </div>
@@ -56,7 +60,7 @@ function PatientDetails({ data, isLoading }: IProps) {
             </p>
           </div>
           <p className="font-bold">
-            {data.last_result
+            {data.last_result !== null
               ? resultsMap[data.last_result]
               : "Not Diagnosed yet."}
           </p>

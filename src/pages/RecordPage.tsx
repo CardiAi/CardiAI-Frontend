@@ -104,7 +104,7 @@ function RecordPage() {
         </p>
         <p>
           <span className="font-bold">Maximum heart rate:</span>{" "}
-          {data.max_thal || "Unknown"}
+          {data.max_thal ?? "Unknown"}
         </p>
         <p>
           <span className="font-bold">Coronary Artery:</span>{" "}
@@ -116,7 +116,7 @@ function RecordPage() {
         </p>
         <p>
           <span className="font-bold">Old peak:</span>{" "}
-          {data.old_peak || "Unknown"}
+          {parseFloat(data.old_peak) ?? "Unknown"}
         </p>
       </div>
     </div>

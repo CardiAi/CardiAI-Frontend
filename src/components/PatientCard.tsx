@@ -34,11 +34,7 @@ function PatientCard({
         <div className="flex gap-4">
           <div className="size-16 rounded-full bg-[#DB45451A] flex items-center justify-center">
             <img
-              src={
-                patient?.last_result
-                  ? resultsImgMap[+patient.last_result]
-                  : DegreeIV
-              }
+              src={resultsImgMap[parseInt(patient?.last_result || "4")]}
               alt=""
             />
           </div>
