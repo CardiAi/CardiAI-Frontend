@@ -5,6 +5,10 @@ import HeartImg from "@/assets/heart.png";
 import SlopeImg from "@/assets/slope.png";
 import ThalImg from "@/assets/thal.png";
 import ExerciseImg from "@/assets/exercise.png";
+import HeartPlc from "@/assets/heartPlc.webp";
+import SlopePlc from "@/assets/slopePlc.webp";
+import ThalPlc from "@/assets/thalPlc.webp";
+import ExercisePlc from "@/assets/exercisePlc.webp";
 import {
   Form,
   FormControl,
@@ -71,6 +75,7 @@ function AddDiagnosisForm({ setOpen }: { setOpen: (open: boolean) => void }) {
   const { trigger } = form;
   const nodes = [
     <SelctBox
+      placeholderImg={HeartPlc}
       transition={transitions[direction || "forward"]}
       img={HeartImg}
       name="chest_pain"
@@ -84,6 +89,7 @@ function AddDiagnosisForm({ setOpen }: { setOpen: (open: boolean) => void }) {
       register={form.register}
     />,
     <SelctBox
+      placeholderImg={SlopePlc}
       transition={transitions[direction || "forward"]}
       img={SlopeImg}
       name="slope"
@@ -98,6 +104,7 @@ function AddDiagnosisForm({ setOpen }: { setOpen: (open: boolean) => void }) {
     <SelctBox
       transition={transitions[direction || "forward"]}
       img={ThalImg}
+      placeholderImg={ThalPlc}
       name="thal"
       placeholder="What would you classify the resulting condition of Thalassemia?"
       options={[
@@ -108,6 +115,7 @@ function AddDiagnosisForm({ setOpen }: { setOpen: (open: boolean) => void }) {
       register={form.register}
     />,
     <SelctBox
+      placeholderImg={ExercisePlc}
       transition={transitions[direction || "forward"]}
       img={ExerciseImg}
       name="exercise_angina"

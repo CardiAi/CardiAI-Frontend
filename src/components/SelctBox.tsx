@@ -4,6 +4,7 @@ interface IValues {
   value: string | number;
   label: string;
 }
+import { LazyLoadImage } from "react-lazy-load-image-component";
 interface IProps {
   name: string;
   img: string;
@@ -14,7 +15,7 @@ interface IProps {
       [key: string]: string | number;
     };
   };
-
+  placeholderImg: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   register: (name: any) => any;
 }
@@ -25,6 +26,7 @@ function SelctBox({
   name,
   options,
   placeholder,
+  placeholderImg,
 }: IProps) {
   return (
     <motion.div
@@ -32,7 +34,14 @@ function SelctBox({
       {...transition}
       className="min-h-96 flex flex-col items-center gap-3 "
     >
-      <img src={img} alt="image" />
+      <div className="h-[163px] w-[168px]">
+        <LazyLoadImage
+          className="w-full h-full"
+          PlaceholderSrc={placeholderImg}
+          src={img}
+          alt="image"
+        />
+      </div>
       <div className="w-full flex flex-col items-center gap-3">
         <h2 className="text-lg font-semibold ">{placeholder}</h2>
         {options.map((option) => {
