@@ -37,7 +37,7 @@ function SelctBox({
       <div className="h-[163px] w-[168px]">
         <LazyLoadImage
           className="w-full h-full"
-          PlaceholderSrc={placeholderImg}
+          placeholderSrc={placeholderImg}
           src={img}
           alt="image"
         />
