@@ -231,8 +231,6 @@ export async function createRecord(
         )}`,
       },
     });
-    console.log(data);
-    console.log(res);
     return res.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
