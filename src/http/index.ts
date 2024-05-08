@@ -1,15 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { decrypt, encrypt } from "@/lib/utils";
-import {
-  diagnosisSchema,
-  loginFormSchema,
-  patientSchema,
-  signupFormSchema,
-} from "@/schemas";
+import { loginFormSchema, patientSchema, signupFormSchema } from "@/schemas";
 import { store } from "@/store/store";
 import { storeUser } from "@/store/userSlice";
 import axios, { AxiosError } from "axios";
-import { d } from "node_modules/@tanstack/react-query-devtools/build/modern/devtools-9h89nHJX";
 import { redirect } from "react-router-dom";
 import { z } from "zod";
 
