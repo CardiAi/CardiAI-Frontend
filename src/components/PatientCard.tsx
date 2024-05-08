@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { Skeleton } from "./ui/skeleton";
 import { IPatient } from "@/Interfaces";
 import { resultsImgMap, resultsMap } from "@/Maps";
-import DegreeIV from "../assets/Degree IV.svg";
 function PatientCard({
   isLoading,
   patient,
