@@ -220,6 +220,8 @@ export async function createRecord(
         )}`,
       },
     });
+    console.log(data);
+    console.log(res.data);
     return res.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {

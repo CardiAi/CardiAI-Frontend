@@ -107,7 +107,7 @@ function AddDiagnosisForm({ setOpen }: { setOpen: (open: boolean) => void }) {
       placeholder="What would you classify the resulting condition of Thalassemia?"
       options={[
         { label: "Normal", value: "normal" },
-        { label: "Reversible Defect", value: "reversible defect" },
+        { label: "Reversable Defect", value: "reversable defect" },
         { label: "Fixed Defect", value: "fixed defect" },
       ]}
       register={form.register}
@@ -183,8 +183,8 @@ function AddDiagnosisForm({ setOpen }: { setOpen: (open: boolean) => void }) {
                         values={[
                           { label: "Normal", value: "normal" },
                           {
-                            label: "STT Abnormality",
-                            value: "stt abnormality",
+                            label: "ST-T Abnormality",
+                            value: "st-t abnormality",
                           },
                           { label: "LV Hypertrophy", value: "lv hypertrophy" },
                           // @ts-expect-error - null is a valid value

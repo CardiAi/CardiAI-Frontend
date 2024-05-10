@@ -72,8 +72,8 @@ export const diagnosisSchema = z.object({
     .min(0, { message: "Cornary Artery must be positive number." })
     .max(3, { message: "Cornary Artery must be less than 3." }),
   slope: z.enum(["upsloping", "flat", "downsloping"]),
-  thal: z.enum(["normal", "fixed defect", "reversible defect"]),
-  ecg: z.enum(["normal", "stt abnormality", "lv hypertrophy"]).optional(),
+  thal: z.enum(["normal", "fixed defect", "reversable defect"]),
+  ecg: z.enum(["normal", "st-t abnormality", "lv hypertrophy"]).optional(),
   old_peak: z.coerce
     .number({ message: "Old Peak must be entered as a number." })
     .min(-2.6, { message: "Old Peak must be greater than -2.6." })
