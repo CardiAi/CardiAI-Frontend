@@ -14,17 +14,6 @@ export const instance = axios.create({
     "Content-Type": "application/json",
   },
 });
-// export async function isAuthenticated() {
-//   const token = localStorage.getItem("token");
-//   if (!token) {
-//     return null;
-//   }
-//   try {
-//     const res=await instance.get()
-//   } catch (error) {
-
-//   }
-// }
 export async function login(data: z.infer<typeof loginFormSchema>) {
   try {
     const res = await instance.post("/login", data);

@@ -17,9 +17,6 @@ import {
   FormLabel,
   FormMessage,
 } from "./ui/form";
-// import { Input } from "./ui/input";
-// import { Button } from "./ui/button";
-// import CustomSelect from "./CustomSelect";
 import SelctBox from "./SelctBox";
 import { AnimatePresence, motion } from "framer-motion";
 import { diagnosisSchema as formSchema } from "@/schemas";
@@ -158,112 +155,6 @@ function AddDiagnosisForm({ setOpen }: { setOpen: (open: boolean) => void }) {
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-8 flex flex-col justify-between overflow-x-hidden overflow-y-auto min-h-[600px] max-h-[600px] py-1 "
       >
-        {/* <FormField
-          control={form.control}
-          name="chest_pain"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>
-                What is the type of chest pain the patient feels?
-              </FormLabel>
-              <CustomSelect
-                field={field}
-                placeholder="Chest Pain Type"
-                values={[
-                  { label: "Typical Angina", value: "typical angina" },
-                  { label: "Atypical Angina", value: "atypical angina" },
-                  { label: "Non-Anginal", value: "non-anginal" },
-                  { label: "Asymptomatic", value: "asymptomatic" },
-                ]}
-              />
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="slope"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>
-                What is the slope of the peak exercise ST segment?
-              </FormLabel>
-              <CustomSelect
-                field={field}
-                placeholder="Slope"
-                values={[
-                  { label: "Flat", value: "flat" },
-                  { label: "Upsloping", value: "upsloping" },
-                  { label: "Downsloping", value: "downsloping" },
-                ]}
-              />
-              <FormMessage />
-            </FormItem>
-          )}
-        />{" "}
-        <FormField
-          control={form.control}
-          name="thal"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>
-                What would you classify the resulting condition of Thalassemia?
-              </FormLabel>
-              <CustomSelect
-                field={field}
-                placeholder="Thalassemia's resulting condition"
-                values={[
-                  { label: "Normal", value: "normal" },
-                  { label: "Reversible Defect", value: "reversible defect" },
-                  { label: "Fixed Defect", value: "fixed defect" },
-                ]}
-              />
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="exercise_angina"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>
-                Does the patient suffer from Exercise Angina?
-              </FormLabel>
-              <CustomSelect
-                field={field}
-                placeholder="Exercise Angina"
-                values={[
-                  { label: "Yes", value: "1" },
-                  { label: "No", value: "0" },
-                ]}
-              />
-              <FormMessage />
-            </FormItem>
-          )}
-        />{" "}
-        <FormField
-          control={form.control}
-          name="ecg"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>
-                What are the resting electrocardiographic results?
-              </FormLabel>
-              <CustomSelect
-                field={field}
-                placeholder="ECG Results"
-                values={[
-                  { label: "Normal", value: "normal" },
-                  { label: "SST Abnormality", value: "sst abnormality" },
-                  { label: "LV Hypertrophy", value: "lv hypertrophy" },
-                  { label: "None", value: null },
-                ]}
-              />
-              <FormMessage />
-            </FormItem>
-          )}
-        /> */}
         <div className="flex w-full justify-center">
           <AnimatePresence mode="wait" initial={false}>
             {nodes.map((node, index) =>

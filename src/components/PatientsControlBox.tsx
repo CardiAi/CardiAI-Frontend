@@ -4,13 +4,7 @@ import CreatePatientFormDialog from "@/components/CreatePatientFormDialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useDebouncedCallback } from "use-debounce";
-// import {
-//   Select,
-//   SelectValue,
-//   SelectContent,
-//   SelectItem,
-//   SelectTrigger,
-// } from "@/components/ui/select";
+
 import { AnimatePresence, motion } from "framer-motion";
 import { Search, X } from "lucide-react";
 function PatientsControlBox() {
@@ -25,12 +19,6 @@ function PatientsControlBox() {
       setSearchParams(searchParams);
     }
   }, 350);
-  // const sortFilter: "name-asc" | "name-dsc" | undefined =
-  //   // prettier-ignore
-  //   (searchParams.get("sort") === "name-asc") ||
-  //   (searchParams.get("sort") === "name-dsc")
-  //     ? searchParams.get("sort") as "name-asc" | "name-dsc"
-  //     : undefined;
 
   return (
     <AnimatePresence initial={false} mode="wait">
@@ -51,29 +39,6 @@ function PatientsControlBox() {
           >
             <Search />
           </Button>
-          {/* <Select
-                value={sortFilter}
-                onValueChange={(d) => {
-                  searchParams.set("sort", d);
-                  setSearchParams(searchParams);
-                }}
-              >
-                <SelectTrigger className="w-24">
-                  <SelectValue placeholder="Sort" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="name-asc">
-                    <div className="flex justify-between gap-2 items-center">
-                      Name <ArrowUp size={16} />
-                    </div>
-                  </SelectItem>
-                  <SelectItem value="name-dsc">
-                    <div className="flex justify-between gap-2 items-center">
-                      Name <ArrowDown size={16} />
-                    </div>
-                  </SelectItem>
-                </SelectContent>
-              </Select> */}
 
           <CreatePatientFormDialog />
         </motion.div>
