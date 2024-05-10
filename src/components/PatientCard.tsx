@@ -33,7 +33,7 @@ function PatientCard({
         <div className="flex gap-4">
           <div className="size-16 rounded-full bg-[#DB45451A] flex items-center justify-center">
             <img
-              src={resultsImgMap[parseInt(patient?.last_result || "4")]}
+              src={resultsImgMap[parseInt(patient?.last_result ?? "4")]}
               alt=""
             />
           </div>
@@ -42,8 +42,8 @@ function PatientCard({
               {patient?.name}
             </h2>
             <p className="text-sm text-[#552636]">
-              {patient?.last_result
-                ? resultsMap[+patient.last_result]
+              {patient?.last_result !== undefined
+                ? resultsMap[+patient?.last_result]
                 : "Not Found"}
             </p>
           </div>
