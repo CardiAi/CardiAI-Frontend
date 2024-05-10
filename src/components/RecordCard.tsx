@@ -43,7 +43,7 @@ const RecordCard = ({ isLoading, record }: IProps) => {
           </p>
         </div>
         <p className="flex-1 text-right text-xs font-bold">
-          {record?.result ? resultsMap[record?.result] : "No Result"}
+          {record?.result != null ? resultsMap[record?.result] : "No Result"}
         </p>
       </div>
     </Link>
