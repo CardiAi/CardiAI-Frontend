@@ -3,7 +3,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-export function useRecordsData(page: number) {
+export function useRecordsData(page: number = 1) {
   const { patientID } = useParams();
   const { data, isLoading, isError, error } = useQuery({
     queryFn: () => getPatientRecords(patientID || "", page),
@@ -11,7 +11,7 @@ export function useRecordsData(page: number) {
   });
   const queryClient = useQueryClient();
   useEffect(() => {
-    if (page === 1) {
+    if (page === 1 && data?.meta?.last_page > 1) {
       queryClient.prefetchQuery({
         queryKey: ["records", patientID, page + 1],
         queryFn: () => getPatientRecords(patientID || "", page + 1),

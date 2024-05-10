@@ -135,10 +135,12 @@ function AddDiagnosisForm({ setOpen }: { setOpen: (open: boolean) => void }) {
         queryClient.invalidateQueries({ queryKey: ["records", patientID] });
         queryClient.invalidateQueries({ queryKey: ["patient", patientID] });
         if (data?.data?.id) {
-          queryClient.setQueriesData(
-            {
-              queryKey: ["record", data?.data?.id],
-            },
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const { patient, ...recData } = data.data;
+          console.log(recData);
+          queryClient.setQueryData(
+            ["record", `${recData?.id}`],
+
             data?.data
           );
           navigate(`/patient/${patientID}/${data?.data?.id}`);
