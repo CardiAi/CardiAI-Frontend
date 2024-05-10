@@ -19,7 +19,7 @@ export const chestPainMap = {
 };
 export const ecgResultsMap = {
   normal: "Normal",
-  "stt abnormality": "STT Abnormality",
+  "st-t abnormality": "ST-T Abnormality",
   "lv hypertrophy": "LV Hypertrophy",
 };
 export const slopeMap = {
