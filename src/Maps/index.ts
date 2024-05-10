@@ -30,5 +30,5 @@ export const slopeMap = {
 export const thalMap = {
   normal: "Normal",
   "fixed defect": "Fixed Defect",
-  "reversible defect": "Reversible Defect",
+  "reversable defect": "Reversable Defect",
 };

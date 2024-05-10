@@ -11,6 +11,7 @@ import { useGetRecord } from "@/hook/useGetRecord";
 
 function RecordPage() {
   const { data, isError, isLoading } = useGetRecord();
+  console.log(data);
   if (isLoading)
     return (
       <div className="flex-1 bg-secondary-blue rounded-md flex justify-center items-center">
