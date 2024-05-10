@@ -42,7 +42,7 @@ function PatientCard({
               {patient?.name}
             </h2>
             <p className="text-sm text-[#552636]">
-              {patient?.last_result !== undefined
+              {patient?.last_result != undefined
                 ? resultsMap[+patient?.last_result]
                 : "Not Found"}
             </p>
