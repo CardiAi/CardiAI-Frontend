@@ -100,7 +100,7 @@ export async function createPatient(
         )}`,
       },
     });
-    return res.data?.message;
+    return res.data?.data;
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
       const err = error as AxiosError<{ message: string }>;

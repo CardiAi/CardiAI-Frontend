@@ -25,7 +25,7 @@ import { patientSchema as formSchema } from "@/schemas";
 import { useCreatePatient } from "@/hook/useCreatePatient";
 import toast from "react-hot-toast";
 import { useQueryClient } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function CreatePatientFormDialog({
   isEditing,
@@ -37,6 +37,7 @@ export default function CreatePatientFormDialog({
   const { patientID } = useParams();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { mutate, isPending } = useCreatePatient();
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -63,17 +64,16 @@ export default function CreatePatientFormDialog({
           queryClient.invalidateQueries({
             queryKey: ["patients"],
           });
-          queryClient.refetchQueries({ queryKey: ["patients"] });
+          queryClient.setQueryData(["patient", `${data.id}`], data);
           if (isEditing) {
-            queryClient.setQueriesData(
-              { queryKey: ["patient", patientID] },
-              data
-            );
             queryClient.invalidateQueries({
               queryKey: ["patient", patientID],
             });
           }
-          if (!isEditing) form.reset();
+          if (!isEditing) {
+            navigate(`/patient/${data.id}`);
+            form.reset();
+          }
           setIsOpen(false);
         },
         onError(error) {
