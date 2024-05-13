@@ -32,8 +32,10 @@ function PatientsView() {
     !data?.data?.length &&
     searchParams.get("page") &&
     parseInt(searchParams.get("page") || "") !== 1
-  )
-    return <Navigate replace to="/" />;
+  ) {
+    searchParams.delete("page");
+    return <Navigate replace to={`/${searchParams}`} />;
+  }
   return (
     <>
       <section className="grid min-[600px]:grid-cols-2 gap-4 py-3 flex-1 auto-rows-[80px]">
