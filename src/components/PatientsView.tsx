@@ -34,7 +34,7 @@ function PatientsView() {
     parseInt(searchParams.get("page") || "") !== 1
   ) {
     searchParams.delete("page");
-    return <Navigate replace to={`/${searchParams}`} />;
+    return <Navigate replace to={`/?${searchParams}`} />;
   }
   return (
     <>
