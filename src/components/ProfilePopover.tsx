@@ -47,7 +47,7 @@ function ProfilePopover() {
               onSuccess() {
                 toast.success("Logged Out Successfully", { id: logoutToast });
                 sessionStorage.removeItem("token");
-                queryClient.removeQueries({ queryKey: ["user"] });
+                queryClient.removeQueries();
                 dispatch(logout());
               },
             });
