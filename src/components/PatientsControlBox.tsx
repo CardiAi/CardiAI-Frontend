@@ -13,7 +13,7 @@ function PatientsControlBox() {
   const debounced = useDebouncedCallback((e: ChangeEvent<HTMLInputElement>) => {
     searchParams.set("search", e.target.value);
     setSearchParams(searchParams);
-    if (searchParams.get("search") === "") {
+    if (e.target.value === "") {
       searchParams.delete("search");
       setSearchParams(searchParams);
     }
