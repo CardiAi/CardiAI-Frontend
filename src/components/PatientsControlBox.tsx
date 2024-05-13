@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import CreatePatientFormDialog from "@/components/CreatePatientFormDialog";
 import { Button } from "@/components/ui/button";
@@ -11,14 +11,15 @@ function PatientsControlBox() {
   const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const debounced = useDebouncedCallback((e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value) {
-      searchParams.set("search", e.target.value);
-      setSearchParams(searchParams);
-    } else {
+    searchParams.set("search", e.target.value);
+    setSearchParams(searchParams);
+  }, 350);
+  useEffect(() => {
+    if (!searchParams.get("search")) {
       searchParams.delete("search");
       setSearchParams(searchParams);
     }
-  }, 350);
+  }, [searchParams, setSearchParams]);
 
   return (
     <AnimatePresence initial={false} mode="wait">
