@@ -8,7 +8,7 @@ import { redirect } from "react-router-dom";
 import { z } from "zod";
 
 export const instance = axios.create({
-  baseURL: "https://cardiai-112e49359ba9.herokuapp.com/api",
+  baseURL: import.meta.env.VITE_API_URL,
 
   headers: {
     "Content-Type": "application/json",
